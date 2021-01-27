@@ -1,4 +1,8 @@
+from typing import Optional
+
 import uiautomator2 as u2
+from uiautomator2 import SCROLL_STEPS
+
 from AutoInput import Util
 
 
@@ -13,7 +17,7 @@ class Keyboard_Key(object):
 
         self.sanxing6_a = [0.098, 0.781]
         self.sanxing6_b = [0.598, 0.873]
-        self.sanxing6_c = [0.398, 0.882]
+        self.sanxing6_c = [0.400, 0.840]
         self.sanxing6_d = [0.305, 0.783]
         self.sanxing6_e = [0.251, 0.7]
         self.sanxing6_f = [0.401, 0.779]
@@ -67,122 +71,178 @@ class Keyboard_Key(object):
 
     def tapWord(self, word):
         word = word.lower()
-        """根据deviceName选择对应按键"""
-        if self.deviceName == self.sanxing6:
-            if word == "a":
-                self.d.click(self.sanxing6_a[0], self.sanxing6_a[1])
-            elif word == "b":
-                self.d.click(self.sanxing6_b[0], self.sanxing6_b[1])
-            elif word == "c":
-                self.d.click(self.sanxing6_c[0], self.sanxing6_c[1])
-            elif word == "d":
-                self.d.click(self.sanxing6_d[0], self.sanxing6_d[1])
-            elif word == "e":
-                self.d.click(self.sanxing6_e[0], self.sanxing6_e[1])
-            elif word == "f":
-                self.d.click(self.sanxing6_f[0], self.sanxing6_f[1])
-            elif word == "g":
-                self.d.click(self.sanxing6_g[0], self.sanxing6_g[1])
-            elif word == "h":
-                self.d.click(self.sanxing6_h[0], self.sanxing6_h[1])
-            elif word == "i":
-                self.d.click(self.sanxing6_i[0], self.sanxing6_i[1])
-            elif word == "j":
-                self.d.click(self.sanxing6_j[0], self.sanxing6_j[1])
-            elif word == "k":
-                self.d.click(self.sanxing6_k[0], self.sanxing6_k[1])
-            elif word == "l":
-                self.d.click(self.sanxing6_l[0], self.sanxing6_l[1])
-            elif word == "m":
-                self.d.click(self.sanxing6_m[0], self.sanxing6_m[1])
-            elif word == "n":
-                self.d.click(self.sanxing6_n[0], self.sanxing6_n[1])
-            elif word == "o":
-                self.d.click(self.sanxing6_o[0], self.sanxing6_o[1])
-            elif word == "p":
-                self.d.click(self.sanxing6_p[0], self.sanxing6_p[1])
-            elif word == "q":
-                self.d.click(self.sanxing6_q[0], self.sanxing6_q[1])
-            elif word == "r":
-                self.d.click(self.sanxing6_r[0], self.sanxing6_r[1])
-            elif word == "s":
-                self.d.click(self.sanxing6_s[0], self.sanxing6_s[1])
-            elif word == "t":
-                self.d.click(self.sanxing6_t[0], self.sanxing6_t[1])
-            elif word == "u":
-                self.d.click(self.sanxing6_u[0], self.sanxing6_u[1])
-            elif word == "v":
-                self.d.click(self.sanxing6_v[0], self.sanxing6_v[1])
-            elif word == "w":
-                self.d.click(self.sanxing6_w[0], self.sanxing6_w[1])
-            elif word == "x":
-                self.d.click(self.sanxing6_x[0], self.sanxing6_x[1])
-            elif word == "y":
-                self.d.click(self.sanxing6_y[0], self.sanxing6_y[1])
-            elif word == "z":
-                self.d.click(self.sanxing6_z[0], self.sanxing6_z[1])
+        if word == "a":
+            self.d.click(self.sanxing6_a[0], self.sanxing6_a[1])
+        elif word == "b":
+            self.d.click(self.sanxing6_b[0], self.sanxing6_b[1])
+        elif word == "c":
+            self.d.click(self.sanxing6_c[0], self.sanxing6_c[1])
+        elif word == "d":
+            self.d.click(self.sanxing6_d[0], self.sanxing6_d[1])
+        elif word == "e":
+            self.d.click(self.sanxing6_e[0], self.sanxing6_e[1])
+        elif word == "f":
+            self.d.click(self.sanxing6_f[0], self.sanxing6_f[1])
+        elif word == "g":
+            self.d.click(self.sanxing6_g[0], self.sanxing6_g[1])
+        elif word == "h":
+            self.d.click(self.sanxing6_h[0], self.sanxing6_h[1])
+        elif word == "i":
+            self.d.click(self.sanxing6_i[0], self.sanxing6_i[1])
+        elif word == "j":
+            self.d.click(self.sanxing6_j[0], self.sanxing6_j[1])
+        elif word == "k":
+            self.d.click(self.sanxing6_k[0], self.sanxing6_k[1])
+        elif word == "l":
+            self.d.click(self.sanxing6_l[0], self.sanxing6_l[1])
+        elif word == "m":
+            self.d.click(self.sanxing6_m[0], self.sanxing6_m[1])
+        elif word == "n":
+            self.d.click(self.sanxing6_n[0], self.sanxing6_n[1])
+        elif word == "o":
+            self.d.click(self.sanxing6_o[0], self.sanxing6_o[1])
+        elif word == "p":
+            self.d.click(self.sanxing6_p[0], self.sanxing6_p[1])
+        elif word == "q":
+            self.d.click(self.sanxing6_q[0], self.sanxing6_q[1])
+        elif word == "r":
+            self.d.click(self.sanxing6_r[0], self.sanxing6_r[1])
+        elif word == "s":
+            self.d.click(self.sanxing6_s[0], self.sanxing6_s[1])
+        elif word == "t":
+            self.d.click(self.sanxing6_t[0], self.sanxing6_t[1])
+        elif word == "u":
+            self.d.click(self.sanxing6_u[0], self.sanxing6_u[1])
+        elif word == "v":
+            self.d.click(self.sanxing6_v[0], self.sanxing6_v[1])
+        elif word == "w":
+            self.d.click(self.sanxing6_w[0], self.sanxing6_w[1])
+        elif word == "x":
+            self.d.click(self.sanxing6_x[0], self.sanxing6_x[1])
+        elif word == "y":
+            self.d.click(self.sanxing6_y[0], self.sanxing6_y[1])
+        elif word == "z":
+            self.d.click(self.sanxing6_z[0], self.sanxing6_z[1])
 
-        elif self.deviceName == self.yijia7:
-            if word == "a":
-                self.d.click(self.yijia7_a[0], self.yijia7_a[1])
-            elif word == "b":
-                self.d.click(self.yijia7_b[0], self.yijia7_b[1])
-            elif word == "c":
-                self.d.click(self.yijia7_c[0], self.yijia7_c[1])
-            elif word == "d":
-                self.d.click(self.yijia7_d[0], self.yijia7_d[1])
-            elif word == "e":
-                self.d.click(self.yijia7_e[0], self.yijia7_e[1])
-            elif word == "f":
-                self.d.click(self.yijia7_f[0], self.yijia7_f[1])
-            elif word == "g":
-                self.d.click(self.yijia7_g[0], self.yijia7_g[1])
-            elif word == "h":
-                self.d.click(self.yijia7_h[0], self.yijia7_h[1])
-            elif word == "i":
-                self.d.click(self.yijia7_i[0], self.yijia7_i[1])
-            elif word == "j":
-                self.d.click(self.yijia7_j[0], self.yijia7_j[1])
-            elif word == "k":
-                self.d.click(self.yijia7_k[0], self.yijia7_k[1])
-            elif word == "l":
-                self.d.click(self.yijia7_l[0], self.yijia7_l[1])
-            elif word == "m":
-                self.d.click(self.yijia7_m[0], self.yijia7_m[1])
-            elif word == "n":
-                self.d.click(self.yijia7_n[0], self.yijia7_n[1])
-            elif word == "o":
-                self.d.click(self.yijia7_o[0], self.yijia7_o[1])
-            elif word == "p":
-                self.d.click(self.yijia7_p[0], self.yijia7_p[1])
-            elif word == "q":
-                self.d.click(self.yijia7_q[0], self.yijia7_q[1])
-            elif word == "r":
-                self.d.click(self.yijia7_r[0], self.yijia7_r[1])
-            elif word == "s":
-                self.d.click(self.yijia7_s[0], self.yijia7_s[1])
-            elif word == "t":
-                self.d.click(self.yijia7_t[0], self.yijia7_t[1])
-            elif word == "u":
-                self.d.click(self.yijia7_u[0], self.yijia7_u[1])
-            elif word == "v":
-                self.d.click(self.yijia7_v[0], self.yijia7_v[1])
-            elif word == "w":
-                self.d.click(self.yijia7_w[0], self.yijia7_w[1])
-            elif word == "x":
-                self.d.click(self.yijia7_x[0], self.yijia7_x[1])
-            elif word == "y":
-                self.d.click(self.yijia7_y[0], self.yijia7_y[1])
-            elif word == "z":
-                self.d.click(self.yijia7_z[0], self.yijia7_z[1])
+    """根据deviceName选择对应按键"""
+    # if self.deviceName == self.yijia7:
+    #     if word == "a":
+    #         self.d.click(self.sanxing6_a[0], self.sanxing6_a[1])
+    #     elif word == "b":
+    #         self.d.click(self.sanxing6_b[0], self.sanxing6_b[1])
+    #     elif word == "c":
+    #         self.d.click(self.sanxing6_c[0], self.sanxing6_c[1])
+    #     elif word == "d":
+    #         self.d.click(self.sanxing6_d[0], self.sanxing6_d[1])
+    #     elif word == "e":
+    #         self.d.click(self.sanxing6_e[0], self.sanxing6_e[1])
+    #     elif word == "f":
+    #         self.d.click(self.sanxing6_f[0], self.sanxing6_f[1])
+    #     elif word == "g":
+    #         self.d.click(self.sanxing6_g[0], self.sanxing6_g[1])
+    #     elif word == "h":
+    #         self.d.click(self.sanxing6_h[0], self.sanxing6_h[1])
+    #     elif word == "i":
+    #         self.d.click(self.sanxing6_i[0], self.sanxing6_i[1])
+    #     elif word == "j":
+    #         self.d.click(self.sanxing6_j[0], self.sanxing6_j[1])
+    #     elif word == "k":
+    #         self.d.click(self.sanxing6_k[0], self.sanxing6_k[1])
+    #     elif word == "l":
+    #         self.d.click(self.sanxing6_l[0], self.sanxing6_l[1])
+    #     elif word == "m":
+    #         self.d.click(self.sanxing6_m[0], self.sanxing6_m[1])
+    #     elif word == "n":
+    #         self.d.click(self.sanxing6_n[0], self.sanxing6_n[1])
+    #     elif word == "o":
+    #         self.d.click(self.sanxing6_o[0], self.sanxing6_o[1])
+    #     elif word == "p":
+    #         self.d.click(self.sanxing6_p[0], self.sanxing6_p[1])
+    #     elif word == "q":
+    #         self.d.click(self.sanxing6_q[0], self.sanxing6_q[1])
+    #     elif word == "r":
+    #         self.d.click(self.sanxing6_r[0], self.sanxing6_r[1])
+    #     elif word == "s":
+    #         self.d.click(self.sanxing6_s[0], self.sanxing6_s[1])
+    #     elif word == "t":
+    #         self.d.click(self.sanxing6_t[0], self.sanxing6_t[1])
+    #     elif word == "u":
+    #         self.d.click(self.sanxing6_u[0], self.sanxing6_u[1])
+    #     elif word == "v":
+    #         self.d.click(self.sanxing6_v[0], self.sanxing6_v[1])
+    #     elif word == "w":
+    #         self.d.click(self.sanxing6_w[0], self.sanxing6_w[1])
+    #     elif word == "x":
+    #         self.d.click(self.sanxing6_x[0], self.sanxing6_x[1])
+    #     elif word == "y":
+    #         self.d.click(self.sanxing6_y[0], self.sanxing6_y[1])
+    #     elif word == "z":
+    #         self.d.click(self.sanxing6_z[0], self.sanxing6_z[1])
+    #
+    # elif self.deviceName == self.sanxing6:
+    #     if word == "a":
+    #         self.d.click(self.yijia7_a[0], self.yijia7_a[1])
+    #     elif word == "b":
+    #         self.d.click(self.yijia7_b[0], self.yijia7_b[1])
+    #     elif word == "c":
+    #         self.d.click(self.yijia7_c[0], self.yijia7_c[1])
+    #     elif word == "d":
+    #         self.d.click(self.yijia7_d[0], self.yijia7_d[1])
+    #     elif word == "e":
+    #         self.d.click(self.yijia7_e[0], self.yijia7_e[1])
+    #     elif word == "f":
+    #         self.d.click(self.yijia7_f[0], self.yijia7_f[1])
+    #     elif word == "g":
+    #         self.d.click(self.yijia7_g[0], self.yijia7_g[1])
+    #     elif word == "h":
+    #         self.d.click(self.yijia7_h[0], self.yijia7_h[1])
+    #     elif word == "i":
+    #         self.d.click(self.yijia7_i[0], self.yijia7_i[1])
+    #     elif word == "j":
+    #         self.d.click(self.yijia7_j[0], self.yijia7_j[1])
+    #     elif word == "k":
+    #         self.d.click(self.yijia7_k[0], self.yijia7_k[1])
+    #     elif word == "l":
+    #         self.d.click(self.yijia7_l[0], self.yijia7_l[1])
+    #     elif word == "m":
+    #         self.d.click(self.yijia7_m[0], self.yijia7_m[1])
+    #     elif word == "n":
+    #         self.d.click(self.yijia7_n[0], self.yijia7_n[1])
+    #     elif word == "o":
+    #         self.d.click(self.yijia7_o[0], self.yijia7_o[1])
+    #     elif word == "p":
+    #         self.d.click(self.yijia7_p[0], self.yijia7_p[1])
+    #     elif word == "q":
+    #         self.d.click(self.yijia7_q[0], self.yijia7_q[1])
+    #     elif word == "r":
+    #         self.d.click(self.yijia7_r[0], self.yijia7_r[1])
+    #     elif word == "s":
+    #         self.d.click(self.yijia7_s[0], self.yijia7_s[1])
+    #     elif word == "t":
+    #         self.d.click(self.yijia7_t[0], self.yijia7_t[1])
+    #     elif word == "u":
+    #         self.d.click(self.yijia7_u[0], self.yijia7_u[1])
+    #     elif word == "v":
+    #         self.d.click(self.yijia7_v[0], self.yijia7_v[1])
+    #     elif word == "w":
+    #         self.d.click(self.yijia7_w[0], self.yijia7_w[1])
+    #     elif word == "x":
+    #         self.d.click(self.yijia7_x[0], self.yijia7_x[1])
+    #     elif word == "y":
+    #         self.d.click(self.yijia7_y[0], self.yijia7_y[1])
+    #     elif word == "z":
+    #         self.d.click(self.yijia7_z[0], self.yijia7_z[1])
 
-    def swipePoints(self, points):
-        self.d.swipe_points(points)
-        pass
 
-    def swipe(self, points):
-        self.d.swipe()
+"""points传坐标二维数组"""
 
+
+def swipePoints(self, points):
+    self.d.swipe_points(points)
+
+
+def swipe(self, startPoints, endPoints, duration: Optional[float] = None):
+    self.d.swipe(startPoints[0], startPoints[1], endPoints[0], endPoints[1], duration)
 
 if __name__ == '__main__':
     pass
