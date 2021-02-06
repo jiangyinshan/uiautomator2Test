@@ -1,19 +1,54 @@
-import unittest
+import time
 import uiautomator2 as u2
-
 from AutoInput import Util
 from AutoInput.Keyboard_Key import Keyboard_Key
+from AutoInput.manage_case_road import manage_case_road
+from AutoInput.openypxl_util import excel
+import unittest
+import os
+import logging
 
 
-class En_AutoCorrect_Input:
+class En_AutoCorrect_Input(unittest.TestCase):
+    intputContent = [3, 2]
+    expectContent = [3, 3]
+    finalContent = [3, 4]
+    conclusion = [3, 5]
+
     def setUp(self):
-        print("setup")
+        logging.info("setup完成")
 
     def tearDown(self):
-        print("teatDown")
+        logging.info("tearDown完成")
 
-    def case(self):
+    def test_start(self):
+        """get_road获取xlsx文件路径，创建excel对象"""
+        xls_road = manage_case_road().get_road()  # 获取回归用例文件路径
+        xls = excel(xls_road)
         deviceName = Util.get_deviceName()
         keyboard = Keyboard_Key(deviceName)
         d = u2.connect_usb(deviceName)
-        print(d.info)
+        keyboard.back()
+        time.sleep(1)
+        keyboard.showKeyboard()
+        time.sleep(1)
+        """获取xlsx文件中准备进行输入的文本intputContent，预期上屏内容expectContent"""
+        inputContent = xls.getCellValue(self.intputContent[0], self.intputContent[1])
+        expectContent = xls.getCellValue(self.expectContent[0], self.expectContent[1])
+
+        Util.tapByWord(inputContent)
+        keyboard.clickSpace()
+        finalContent = d(className="android.widget.EditText").get_text()
+        xls.saveResult(self.finalContent, finalContent)
+        xls.equalAssert(finalContent, expectContent, self.conclusion)
+        time.sleep(1)
+        d(className="android.widget.EditText").clear_text()
+        xls.saveData(xls_road)
+
+
+if __name__ == '__main__':
+    suite = unittest.TestSuite()
+    # Test2是要测试的类名，test_two是要执行的测试方法
+    suite.addTest(En_AutoCorrect_Input("test_start"))
+    runner = unittest.TextTestRunner()
+    runner.run(suite)
