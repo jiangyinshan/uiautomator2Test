@@ -9,17 +9,17 @@ import os
 import logging
 
 
-class En_AutoCorrect_Input(unittest.TestCase):
-    intputContent = [3, 2]
-    expectContent = [3, 3]
-    finalContent = [3, 4]
-    conclusion = [3, 5]
+class Es_ClickSugg_Input(unittest.TestCase):
+    intputContent = [6, 2]
+    expectContent = [6, 3]
+    finalContent = [6, 4]
+    conclusion = [6, 5]
 
     def setUp(self):
-        logging.info("setup完成")
+        logging.info("西班牙语测试用例setup完成")
 
     def tearDown(self):
-        logging.info("tearDown完成")
+        logging.info("西班牙语测试用例tearDown完成")
 
     def test_start(self):
         """get_road获取xlsx文件路径，创建excel对象"""
@@ -28,16 +28,19 @@ class En_AutoCorrect_Input(unittest.TestCase):
         deviceName = Util.get_deviceName()
         keyboard = Keyboard_Key(deviceName)
         d = u2.connect_usb(deviceName)
-        keyboard.back()
-        time.sleep(1)
+        d.app_start("com.facebook.orca", "com.facebook.orca.auth.StartScreenActivity")
+        time.sleep(2)
+        # if keyboard.deviceName == keyboard.yijia7:
+        #     d(className="android.widget.EditText").click()
+        #     """点击输入messenger框,拉起键盘"""
+        # elif keyboard.deviceName == keyboard.sanxing6:
+        #     d.xpath('//*[@text="Aa"]').click()
         keyboard.showKeyboard()
         time.sleep(1)
-        """获取xlsx文件中准备进行输入的文本intputContent，预期上屏内容expectContent"""
         inputContent = xls.getCellValue(self.intputContent[0], self.intputContent[1])
         expectContent = xls.getCellValue(self.expectContent[0], self.expectContent[1])
-
         Util.tapByWord(inputContent)
-        keyboard.clickSpace()
+        keyboard.clickSugg()
         finalContent = d(className="android.widget.EditText").get_text()
         xls.saveResult(self.finalContent, finalContent)
         xls.equalAssert(finalContent, expectContent, self.conclusion)
@@ -49,6 +52,6 @@ class En_AutoCorrect_Input(unittest.TestCase):
 if __name__ == '__main__':
     suite = unittest.TestSuite()
     # Test2是要测试的类名，test_two是要执行的测试方法
-    suite.addTest(En_AutoCorrect_Input("test_start"))
+    suite.addTest(Es_ClickSugg_Input("test_start"))
     runner = unittest.TextTestRunner()
     runner.run(suite)

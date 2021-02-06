@@ -1,3 +1,4 @@
+import time
 from typing import Optional
 
 import uiautomator2 as u2
@@ -14,7 +15,12 @@ class Keyboard_Key(object):
         self.sanxing6 = "5203adddfc7334c1"
         self.yijia7 = "4e62be76"
         self.d = u2.connect_usb(self.deviceName)
+        self.homeActivity = "com.qisi.ikeyboarduirestruct.NavigationActivityNew"
+        self.interstitialActivity = "com.qisi.ui.InterstitialActivity"
+        self.gmsAdActivity = "com.google.android.gms.ads.AdActivity"
 
+        self.Space = [0.548, 0.909]
+        self.Sugg = [0.4, 0.637]
         self.sanxing6_a = [0.098, 0.781]
         self.sanxing6_b = [0.598, 0.873]
         self.sanxing6_c = [0.400, 0.840]
@@ -233,16 +239,105 @@ class Keyboard_Key(object):
     #     elif word == "z":
     #         self.d.click(self.yijia7_z[0], self.yijia7_z[1])
 
+    """点击messenger输入框弹起键盘"""
 
-"""points传坐标二维数组"""
+    def showKeyboard(self):
+        if self.d.xpath('//*[@text="Aa"]').exists:
+            self.d.xpath('//*[@text="Aa"]').click()
+            return True
+        else:
+            print("当前" + self.getCurrentActivity() + "页面未获取到输入框控件")
+            return False
 
+    def clickSugg(self):
+        self.d.click(self.Sugg[0], self.Sugg[1])
 
-def swipePoints(self, points):
-    self.d.swipe_points(points)
+    """系统返回键操作"""
 
+    def back(self):
+        self.d.press('back')
 
-def swipe(self, startPoints, endPoints, duration: Optional[float] = None):
-    self.d.swipe(startPoints[0], startPoints[1], endPoints[0], endPoints[1], duration)
+    def clickSpace(self):
+        self.d.click(self.Space[0], self.Space[1])
+
+    """长按操作，需要传入坐标数组和长按时间"""
+
+    def longClick(self, coordinate, duration):
+        try:
+            self.d.long_click(coordinate[0], coordinate[1], duration)
+            return True
+        except Exception:
+            print('str(Exception):\t', str(Exception))
+            return False
+
+    """坐标点间进行滑动操作，coordinates为坐标数组"""
+
+    def swipe_points(self, coordinates, duration=0.5):
+        self.d.swipe_points(coordinates, duration)
+
+    """获取当前Activity名称"""
+
+    def getCurrentActivity(self):
+        currentActivity = self.d.app_current().get('activity')
+        return currentActivity
+
+    """"跳过开屏广告"""
+
+    def closeOpenAD(self):
+        try:
+            currentActivity = self.getCurrentActivity()
+            if currentActivity == self.interstitialActivity:
+                if self.d.xpath('//*[@resource-id="kika.emoji.keyboard.teclados.clavier:id/nativeAdSkip"]').exists:
+                    self.d.xpath('//*[@resource-id="kika.emoji.keyboard.teclados.clavier:id/nativeAdSkip"]').click()
+                else:
+                    self.back()
+            elif currentActivity == self.gmsAdActivity:
+                if self.d.xpath('//*[@text="关闭"]').exists:
+                    self.d.xpath('//*[@text="关闭"]').click()
+                elif self.d.xpath('//*[@text="Close"]').exists:
+                    self.d.xpath('//*[@text="Close"]').click()
+                elif self.d.xpath('//android.widget.Button').exists:
+                    self.d.xpath('//android.widget.Button').click()
+                elif self.d.xpath('//android.widget.RelativeLayout/android.widget.FrameLayout[2]').exists:
+                    self.d.xpath('//android.widget.RelativeLayout/android.widget.FrameLayout[2]').click()
+                else:
+                    time.sleep(7)
+                    self.back()
+            elif currentActivity == self.homeActivity:
+                print("没有显示广告页面")
+        except Exception:
+            print('str(Exception):\t', str(Exception))
+        time.sleep(1)
+        currentActivity = self.getCurrentActivity()
+        if currentActivity == self.homeActivity:
+            print("开屏广告跳过完成，进入到首页")
+            return True
+        else:
+            return False
+
+    def clickUserTabButton(self):
+        if self.d(resourceId="kika.emoji.keyboard.teclados.clavier:id/acx").exists:
+            self.d(resourceId="kika.emoji.keyboard.teclados.clavier:id/acx").click()
+            return True
+        else:
+            print("当前" + self.getCurrentActivity() + "页面未获取到user_tab_button")
+            return False
+
+    def clickLanguageButton(self):
+        if self.d.xpath(
+                '//*[@resource-id="kika.emoji.keyboard.teclados.clavier:id/a3c"]/android.widget.LinearLayout[2]/android.widget.LinearLayout[1]').exists:
+            self.d.xpath(
+                '//*[@resource-id="kika.emoji.keyboard.teclados.clavier:id/a3c"]/android.widget.LinearLayout[2]/android.widget.LinearLayout[1]').click()
+            return True
+        else:
+            print("当前" + self.getCurrentActivity() + "页面未获取到LanguageButton")
+            return False
+
+    def addEspanol(self):
+        while not self.d.xpath('//*[@text="Español"]').exists:
+            self.swipe_points([(0.466, 0.96), (0.485, 0.55)])
+        self.d(text='Español').right(className='android.widget.ImageView').click()
+
 
 if __name__ == '__main__':
     pass

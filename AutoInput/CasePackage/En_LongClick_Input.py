@@ -9,11 +9,11 @@ import os
 import logging
 
 
-class En_AutoCorrect_Input(unittest.TestCase):
-    intputContent = [3, 2]
-    expectContent = [3, 3]
-    finalContent = [3, 4]
-    conclusion = [3, 5]
+class En_LongClick_Input(unittest.TestCase):
+    intputContent = [4, 2]
+    expectContent = [4, 3]
+    finalContent = [4, 4]
+    conclusion = [4, 5]
 
     def setUp(self):
         logging.info("setup完成")
@@ -37,11 +37,13 @@ class En_AutoCorrect_Input(unittest.TestCase):
         expectContent = xls.getCellValue(self.expectContent[0], self.expectContent[1])
 
         Util.tapByWord(inputContent)
-        keyboard.clickSpace()
+        keyboard.longClick(keyboard.Sugg, 2)
+        time.sleep(1)
+        d.click(0.488, 0.546)
+        time.sleep(1)
         finalContent = d(className="android.widget.EditText").get_text()
         xls.saveResult(self.finalContent, finalContent)
-        xls.equalAssert(finalContent, expectContent, self.conclusion)
-        time.sleep(1)
+        xls.containAssert(finalContent, expectContent, self.conclusion)
         d(className="android.widget.EditText").clear_text()
         xls.saveData(xls_road)
 
@@ -49,6 +51,6 @@ class En_AutoCorrect_Input(unittest.TestCase):
 if __name__ == '__main__':
     suite = unittest.TestSuite()
     # Test2是要测试的类名，test_two是要执行的测试方法
-    suite.addTest(En_AutoCorrect_Input("test_start"))
+    suite.addTest(En_LongClick_Input("test_start"))
     runner = unittest.TextTestRunner()
     runner.run(suite)
