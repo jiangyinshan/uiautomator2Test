@@ -28,6 +28,7 @@ def testRefresh(self):
 def tearDown(self):
     # 退出
     self.driver.quit()
+    #测试
 
 
 if __name__ == '__main__':
